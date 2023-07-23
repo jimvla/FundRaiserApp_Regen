@@ -1,0 +1,56 @@
+﻿@model ReGenerationProjectAssignment_FundRaiser.Models.Project
+@{
+    Layout = "~/Views/Shared/Main_layout.cshtml";
+    var packages = ViewData["Packages"] as List<Funding_Package>;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Funding Packages</title>
+</head>
+<body>
+
+    <h3>@Model.Title</h3>
+    <h5>Choose a Funding Package:</h5>
+
+    <br />
+    <div class="container">
+        <div class="row">
+            <br />
+            @foreach (var f in packages)
+            {
+                <div class="col">
+                    <div class="card" style="width:400px; background-color:aliceblue; border: 2px solid maroon;">
+                        <br>
+                        <img class="card-img-top" src="@f.PackageReward" style="width:100%; height:200px; object-fit: contain" alt="Card image">
+                        <div class="card-body">
+                            <h4 class="card-title">@f.PackageName</h4>
+                            <p class="card-text">@f.PackageValue $</p>
+                            <form asp-action="AddValue">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <input type="hidden" asp-for="ProjectId" />
+                                <div class="form-group">
+                                    <input asp-for="TotalAmount" value="@f.PackageValue" class="form-control" type="hidden" />
+                                    <span asp-validation-for="TotalAmount" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" value="Fund" class="btn btn-info" />
+                                </div>
+                                
+                            </form>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="container">
+        <a class="btn btn-secondary" asp-action="Details" asp-route-id="@Model?.ProjectId">Back to Project</a>
+    </div>
+
+</body>
+</html>
